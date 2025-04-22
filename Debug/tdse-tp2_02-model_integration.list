@@ -7,45 +7,45 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         00003794  0800010c  0800010c  0000110c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000430  080038a0  080038a0  000048a0  2**2
+  2 .rodata       00000444  080038a0  080038a0  000048a0  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  08003cd0  08003cd0  00005098  2**0
+  3 .ARM.extab    00000000  08003ce4  08003ce4  00005098  2**0
                   CONTENTS
-  4 .ARM          00000008  08003cd0  08003cd0  00004cd0  2**2
+  4 .ARM          00000008  08003ce4  08003ce4  00004ce4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  08003cd8  08003cd8  00005098  2**0
+  5 .preinit_array 00000000  08003cec  08003cec  00005098  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08003cd8  08003cd8  00004cd8  2**2
+  6 .init_array   00000004  08003cec  08003cec  00004cec  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .fini_array   00000004  08003cdc  08003cdc  00004cdc  2**2
+  7 .fini_array   00000004  08003cf0  08003cf0  00004cf0  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .data         00000098  20000000  08003ce0  00005000  2**2
+  8 .data         00000098  20000000  08003cf4  00005000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000304  20000098  08003d78  00005098  2**2
+  9 .bss          0000030c  20000098  08003d8c  00005098  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  2000039c  08003d78  0000539c  2**0
+ 10 ._user_heap_stack 00000604  200003a4  08003d8c  000053a4  2**0
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  00005098  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000807d  00000000  00000000  000050c1  2**0
+ 12 .debug_info   00008083  00000000  00000000  000050c1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00001dd5  00000000  00000000  0000d13e  2**0
+ 13 .debug_abbrev 00001dd5  00000000  00000000  0000d144  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000730  00000000  00000000  0000ef18  2**3
+ 14 .debug_aranges 00000730  00000000  00000000  0000ef20  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000557  00000000  00000000  0000f648  2**0
+ 15 .debug_rnglists 00000557  00000000  00000000  0000f650  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00018559  00000000  00000000  0000fb9f  2**0
+ 16 .debug_macro  0001857d  00000000  00000000  0000fba7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000c401  00000000  00000000  000280f8  2**0
+ 17 .debug_line   0000c401  00000000  00000000  00028124  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00083457  00000000  00000000  000344f9  2**0
+ 18 .debug_str    000834e4  00000000  00000000  00034525  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000b7950  2**0
+ 19 .comment      00000043  00000000  00000000  000b7a09  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000026b4  00000000  00000000  000b7994  2**2
+ 20 .debug_frame  000026b4  00000000  00000000  000b7a4c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000072  00000000  00000000  000ba048  2**0
+ 21 .debug_line_str 00000072  00000000  00000000  000ba100  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -372,9 +372,9 @@ static void MX_GPIO_Init(void)
  80002cc:	4811      	ldr	r0, [pc, #68]	@ (8000314 <MX_GPIO_Init+0xc0>)
  80002ce:	f000 fc14 	bl	8000afa <HAL_GPIO_WritePin>
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
- 80002d2:	f44f 5300 	mov.w	r3, #8192	@ 0x2000
+  /*Configure GPIO pins : B1_Pin B2_Pin */
+  GPIO_InitStruct.Pin = B1_Pin|B2_Pin;
+ 80002d2:	f44f 5308 	mov.w	r3, #8704	@ 0x2200
  80002d6:	613b      	str	r3, [r7, #16]
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
  80002d8:	4b0f      	ldr	r3, [pc, #60]	@ (8000318 <MX_GPIO_Init+0xc4>)
@@ -382,7 +382,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
  80002dc:	2300      	movs	r3, #0
  80002de:	61bb      	str	r3, [r7, #24]
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
  80002e0:	f107 0310 	add.w	r3, r7, #16
  80002e4:	4619      	mov	r1, r3
  80002e6:	480d      	ldr	r0, [pc, #52]	@ (800031c <MX_GPIO_Init+0xc8>)
@@ -840,7 +840,7 @@ void *_sbrk(ptrdiff_t incr)
  80004c4:	20005000 	.word	0x20005000
  80004c8:	00000400 	.word	0x00000400
  80004cc:	200000fc 	.word	0x200000fc
- 80004d0:	200003a0 	.word	0x200003a0
+ 80004d0:	200003a8 	.word	0x200003a8
 
 080004d4 <SystemInit>:
   * @note   This function should be used only after reset.
@@ -942,11 +942,11 @@ LoopFillZerobss:
   ldr r1, =_edata
  8000518:	20000098 	.word	0x20000098
   ldr r2, =_sidata
- 800051c:	08003ce0 	.word	0x08003ce0
+ 800051c:	08003cf4 	.word	0x08003cf4
   ldr r2, =_sbss
  8000520:	20000098 	.word	0x20000098
   ldr r4, =_ebss
- 8000524:	2000039c 	.word	0x2000039c
+ 8000524:	200003a4 	.word	0x200003a4
 
 08000528 <ADC1_2_IRQHandler>:
  * @retval : None
@@ -4151,8 +4151,8 @@ void HAL_SYSTICK_Callback(void)
  8001770:	bc80      	pop	{r7}
  8001772:	4770      	bx	lr
  8001774:	2000010c 	.word	0x2000010c
- 8001778:	20000174 	.word	0x20000174
- 800177c:	20000184 	.word	0x20000184
+ 8001778:	2000017c 	.word	0x2000017c
+ 800177c:	2000018c 	.word	0x2000018c
  8001780:	20000164 	.word	0x20000164
 
 08001784 <logger_log_print_>:
@@ -4853,8 +4853,8 @@ void task_sensor_init(void *parameters)
  8001c02:	3301      	adds	r3, #1
  8001c04:	617b      	str	r3, [r7, #20]
  8001c06:	697b      	ldr	r3, [r7, #20]
- 8001c08:	2b00      	cmp	r3, #0
- 8001c0a:	d0b5      	beq.n	8001b78 <task_sensor_init+0x8c>
+ 8001c08:	2b01      	cmp	r3, #1
+ 8001c0a:	d9b5      	bls.n	8001b78 <task_sensor_init+0x8c>
 	}
 	g_task_sensor_tick_cnt = G_TASK_SEN_TICK_CNT_INI;
  8001c0c:	4b13      	ldr	r3, [pc, #76]	@ (8001c5c <task_sensor_init+0x170>)
@@ -4874,7 +4874,7 @@ void task_sensor_init(void *parameters)
  8001c30:	20000028 	.word	0x20000028
  8001c34:	08003aac 	.word	0x08003aac
  8001c38:	08003ab8 	.word	0x08003ab8
- 8001c3c:	20000170 	.word	0x20000170
+ 8001c3c:	20000178 	.word	0x20000178
  8001c40:	08003ac8 	.word	0x08003ac8
  8001c44:	08003adc 	.word	0x08003adc
  8001c48:	20000168 	.word	0x20000168
@@ -4882,7 +4882,7 @@ void task_sensor_init(void *parameters)
  8001c50:	08003af4 	.word	0x08003af4
  8001c54:	08003b00 	.word	0x08003b00
  8001c58:	08003b08 	.word	0x08003b08
- 8001c5c:	20000174 	.word	0x20000174
+ 8001c5c:	2000017c 	.word	0x2000017c
 
 08001c60 <task_sensor_update>:
 
@@ -5086,8 +5086,8 @@ void task_sensor_update(void *parameters)
  8001d58:	3301      	adds	r3, #1
  8001d5a:	617b      	str	r3, [r7, #20]
  8001d5c:	697b      	ldr	r3, [r7, #20]
- 8001d5e:	2b00      	cmp	r3, #0
- 8001d60:	d0aa      	beq.n	8001cb8 <task_sensor_update+0x58>
+ 8001d5e:	2b01      	cmp	r3, #1
+ 8001d60:	d9aa      	bls.n	8001cb8 <task_sensor_update+0x58>
     while (b_time_update_required)
  8001d62:	7cfb      	ldrb	r3, [r7, #19]
  8001d64:	2b00      	cmp	r3, #0
@@ -5102,8 +5102,8 @@ void task_sensor_update(void *parameters)
  8001d6e:	46bd      	mov	sp, r7
  8001d70:	bd90      	pop	{r4, r7, pc}
  8001d72:	bf00      	nop
- 8001d74:	20000170 	.word	0x20000170
- 8001d78:	20000174 	.word	0x20000174
+ 8001d74:	20000178 	.word	0x20000178
+ 8001d78:	2000017c 	.word	0x2000017c
  8001d7c:	08003c6c 	.word	0x08003c6c
  8001d80:	20000168 	.word	0x20000168
 
@@ -5289,10 +5289,10 @@ void task_system_init(void *parameters)
  8001ec4:	20000030 	.word	0x20000030
  8001ec8:	08003b80 	.word	0x08003b80
  8001ecc:	08003b8c 	.word	0x08003b8c
- 8001ed0:	20000180 	.word	0x20000180
+ 8001ed0:	20000188 	.word	0x20000188
  8001ed4:	08003b9c 	.word	0x08003b9c
  8001ed8:	08003bb0 	.word	0x08003bb0
- 8001edc:	20000178 	.word	0x20000178
+ 8001edc:	20000180 	.word	0x20000180
  8001ee0:	08003bc0 	.word	0x08003bc0
  8001ee4:	08003bc8 	.word	0x08003bc8
  8001ee8:	08003bd4 	.word	0x08003bd4
@@ -5300,7 +5300,7 @@ void task_system_init(void *parameters)
  8001ef0:	08003be4 	.word	0x08003be4
  8001ef4:	08003bec 	.word	0x08003bec
  8001ef8:	08003bf4 	.word	0x08003bf4
- 8001efc:	20000184 	.word	0x20000184
+ 8001efc:	2000018c 	.word	0x2000018c
 
 08001f00 <task_system_update>:
 
@@ -5478,9 +5478,9 @@ void task_system_update(void *parameters)
  8001fde:	46bd      	mov	sp, r7
  8001fe0:	bd80      	pop	{r7, pc}
  8001fe2:	bf00      	nop
- 8001fe4:	20000180 	.word	0x20000180
- 8001fe8:	20000184 	.word	0x20000184
- 8001fec:	20000178 	.word	0x20000178
+ 8001fe4:	20000188 	.word	0x20000188
+ 8001fe8:	2000018c 	.word	0x2000018c
+ 8001fec:	20000180 	.word	0x20000180
 
 08001ff0 <init_queue_event_task_system>:
 
@@ -5533,7 +5533,7 @@ void init_queue_event_task_system(void)
  800202e:	bc80      	pop	{r7}
  8002030:	4770      	bx	lr
  8002032:	bf00      	nop
- 8002034:	20000188 	.word	0x20000188
+ 8002034:	20000190 	.word	0x20000190
 
 08002038 <put_event_task_system>:
 
@@ -5577,7 +5577,7 @@ void put_event_task_system(task_system_ev_t event)
  8002072:	bc80      	pop	{r7}
  8002074:	4770      	bx	lr
  8002076:	bf00      	nop
- 8002078:	20000188 	.word	0x20000188
+ 8002078:	20000190 	.word	0x20000190
 
 0800207c <get_event_task_system>:
 
@@ -5631,7 +5631,7 @@ task_system_ev_t get_event_task_system(void)
  80020be:	46bd      	mov	sp, r7
  80020c0:	bc80      	pop	{r7}
  80020c2:	4770      	bx	lr
- 80020c4:	20000188 	.word	0x20000188
+ 80020c4:	20000190 	.word	0x20000190
 
 080020c8 <any_event_task_system>:
 
@@ -5655,7 +5655,7 @@ bool any_event_task_system(void)
  80020e2:	bc80      	pop	{r7}
  80020e4:	4770      	bx	lr
  80020e6:	bf00      	nop
- 80020e8:	20000188 	.word	0x20000188
+ 80020e8:	20000190 	.word	0x20000190
 
 080020ec <findslot>:
  80020ec:	4b0a      	ldr	r3, [pc, #40]	@ (8002118 <findslot+0x2c>)
@@ -5678,7 +5678,7 @@ bool any_event_task_system(void)
  8002114:	e7fc      	b.n	8002110 <findslot+0x24>
  8002116:	bf00      	nop
  8002118:	20000048 	.word	0x20000048
- 800211c:	200001b0 	.word	0x200001b0
+ 800211c:	200001b8 	.word	0x200001b8
 
 08002120 <error>:
  8002120:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -5885,7 +5885,7 @@ bool any_event_task_system(void)
  80022ca:	2800      	cmp	r0, #0
  80022cc:	d0f5      	beq.n	80022ba <_close+0x2a>
  80022ce:	e7eb      	b.n	80022a8 <_close+0x18>
- 80022d0:	200001b0 	.word	0x200001b0
+ 80022d0:	200001b8 	.word	0x200001b8
 
 080022d4 <_swistat>:
  80022d4:	b570      	push	{r4, r5, r6, lr}
@@ -6021,7 +6021,7 @@ bool any_event_task_system(void)
  8002410:	f7ff fe86 	bl	8002120 <error>
  8002414:	4604      	mov	r4, r0
  8002416:	e7bf      	b.n	8002398 <_swiopen+0x2c>
- 8002418:	200001b0 	.word	0x200001b0
+ 8002418:	200001b8 	.word	0x200001b8
 
 0800241c <_get_semihosting_exts>:
  800241c:	e92d 43f7 	stmdb	sp!, {r0, r1, r2, r4, r5, r6, r7, r8, r9, lr}
@@ -6093,7 +6093,7 @@ bool any_event_task_system(void)
  80024c4:	f7ff fe3a 	bl	800213c <checkerror>
  80024c8:	e7d0      	b.n	800246c <_get_semihosting_exts+0x50>
  80024ca:	bf00      	nop
- 80024cc:	08003c80 	.word	0x08003c80
+ 80024cc:	08003c94 	.word	0x08003c94
 
 080024d0 <initialise_semihosting_exts>:
  80024d0:	b537      	push	{r0, r1, r2, r4, r5, lr}
@@ -6197,11 +6197,11 @@ bool any_event_task_system(void)
  80025c0:	b005      	add	sp, #20
  80025c2:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  80025c6:	bf00      	nop
- 80025c8:	08003c96 	.word	0x08003c96
- 80025cc:	200001ac 	.word	0x200001ac
- 80025d0:	200001b0 	.word	0x200001b0
- 80025d4:	200001a4 	.word	0x200001a4
- 80025d8:	200001a8 	.word	0x200001a8
+ 80025c8:	08003caa 	.word	0x08003caa
+ 80025cc:	200001b4 	.word	0x200001b4
+ 80025d0:	200001b8 	.word	0x200001b8
+ 80025d4:	200001ac 	.word	0x200001ac
+ 80025d8:	200001b0 	.word	0x200001b0
 
 080025dc <_isatty>:
  80025dc:	b570      	push	{r4, r5, r6, lr}
@@ -6447,7 +6447,7 @@ bool any_event_task_system(void)
  80027ec:	080029c3 	.word	0x080029c3
  80027f0:	080029fb 	.word	0x080029fb
  80027f4:	08002a1f 	.word	0x08002a1f
- 80027f8:	20000250 	.word	0x20000250
+ 80027f8:	20000258 	.word	0x20000258
 
 080027fc <stdio_exit_handler>:
  80027fc:	4a02      	ldr	r2, [pc, #8]	@ (8002808 <stdio_exit_handler+0xc>)
@@ -6482,9 +6482,9 @@ bool any_event_task_system(void)
  8002840:	f7ff bf6a 	b.w	8002718 <_fflush_r>
  8002844:	bd10      	pop	{r4, pc}
  8002846:	bf00      	nop
- 8002848:	20000250 	.word	0x20000250
- 800284c:	200002b8 	.word	0x200002b8
- 8002850:	20000320 	.word	0x20000320
+ 8002848:	20000258 	.word	0x20000258
+ 800284c:	200002c0 	.word	0x200002c0
+ 8002850:	20000328 	.word	0x20000328
 
 08002854 <global_stdio_init.part.0>:
  8002854:	b510      	push	{r4, lr}
@@ -6505,21 +6505,21 @@ bool any_event_task_system(void)
  800287a:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
  800287e:	2112      	movs	r1, #18
  8002880:	f7ff bf86 	b.w	8002790 <std>
- 8002884:	20000388 	.word	0x20000388
- 8002888:	20000250 	.word	0x20000250
+ 8002884:	20000390 	.word	0x20000390
+ 8002888:	20000258 	.word	0x20000258
  800288c:	080027fd 	.word	0x080027fd
 
 08002890 <__sfp_lock_acquire>:
  8002890:	4801      	ldr	r0, [pc, #4]	@ (8002898 <__sfp_lock_acquire+0x8>)
  8002892:	f000 b942 	b.w	8002b1a <__retarget_lock_acquire_recursive>
  8002896:	bf00      	nop
- 8002898:	20000391 	.word	0x20000391
+ 8002898:	20000399 	.word	0x20000399
 
 0800289c <__sfp_lock_release>:
  800289c:	4801      	ldr	r0, [pc, #4]	@ (80028a4 <__sfp_lock_release+0x8>)
  800289e:	f000 b93d 	b.w	8002b1c <__retarget_lock_release_recursive>
  80028a2:	bf00      	nop
- 80028a4:	20000391 	.word	0x20000391
+ 80028a4:	20000399 	.word	0x20000399
 
 080028a8 <__sinit>:
  80028a8:	b510      	push	{r4, lr}
@@ -6539,7 +6539,7 @@ bool any_event_task_system(void)
  80028cc:	e7f2      	b.n	80028b4 <__sinit+0xc>
  80028ce:	bf00      	nop
  80028d0:	08002815 	.word	0x08002815
- 80028d4:	20000388 	.word	0x20000388
+ 80028d4:	20000390 	.word	0x20000390
 
 080028d8 <_fwalk_sglue>:
  80028d8:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -6712,7 +6712,7 @@ bool any_event_task_system(void)
  8002a4e:	b103      	cbz	r3, 8002a52 <_close_r+0x1a>
  8002a50:	6023      	str	r3, [r4, #0]
  8002a52:	bd38      	pop	{r3, r4, r5, pc}
- 8002a54:	2000038c 	.word	0x2000038c
+ 8002a54:	20000394 	.word	0x20000394
 
 08002a58 <_lseek_r>:
  8002a58:	b538      	push	{r3, r4, r5, lr}
@@ -6730,7 +6730,7 @@ bool any_event_task_system(void)
  8002a72:	b103      	cbz	r3, 8002a76 <_lseek_r+0x1e>
  8002a74:	6023      	str	r3, [r4, #0]
  8002a76:	bd38      	pop	{r3, r4, r5, pc}
- 8002a78:	2000038c 	.word	0x2000038c
+ 8002a78:	20000394 	.word	0x20000394
 
 08002a7c <_read_r>:
  8002a7c:	b538      	push	{r3, r4, r5, lr}
@@ -6748,7 +6748,7 @@ bool any_event_task_system(void)
  8002a96:	b103      	cbz	r3, 8002a9a <_read_r+0x1e>
  8002a98:	6023      	str	r3, [r4, #0]
  8002a9a:	bd38      	pop	{r3, r4, r5, pc}
- 8002a9c:	2000038c 	.word	0x2000038c
+ 8002a9c:	20000394 	.word	0x20000394
 
 08002aa0 <_write_r>:
  8002aa0:	b538      	push	{r3, r4, r5, lr}
@@ -6766,7 +6766,7 @@ bool any_event_task_system(void)
  8002aba:	b103      	cbz	r3, 8002abe <_write_r+0x1e>
  8002abc:	6023      	str	r3, [r4, #0]
  8002abe:	bd38      	pop	{r3, r4, r5, pc}
- 8002ac0:	2000038c 	.word	0x2000038c
+ 8002ac0:	20000394 	.word	0x20000394
 
 08002ac4 <__errno>:
  8002ac4:	4b01      	ldr	r3, [pc, #4]	@ (8002acc <__errno+0x8>)
@@ -6801,10 +6801,10 @@ bool any_event_task_system(void)
  8002b02:	4798      	blx	r3
  8002b04:	3601      	adds	r6, #1
  8002b06:	e7f2      	b.n	8002aee <__libc_init_array+0x1e>
- 8002b08:	08003cd8 	.word	0x08003cd8
- 8002b0c:	08003cd8 	.word	0x08003cd8
- 8002b10:	08003cd8 	.word	0x08003cd8
- 8002b14:	08003cdc 	.word	0x08003cdc
+ 8002b08:	08003cec 	.word	0x08003cec
+ 8002b0c:	08003cec 	.word	0x08003cec
+ 8002b10:	08003cec 	.word	0x08003cec
+ 8002b14:	08003cf0 	.word	0x08003cf0
 
 08002b18 <__retarget_lock_init_recursive>:
  8002b18:	4770      	bx	lr
@@ -6883,7 +6883,7 @@ bool any_event_task_system(void)
  8002ba6:	6054      	str	r4, [r2, #4]
  8002ba8:	e7cb      	b.n	8002b42 <_free_r+0x22>
  8002baa:	bd38      	pop	{r3, r4, r5, pc}
- 8002bac:	20000398 	.word	0x20000398
+ 8002bac:	200003a0 	.word	0x200003a0
 
 08002bb0 <sbrk_aligned>:
  8002bb0:	b570      	push	{r4, r5, r6, lr}
@@ -6913,7 +6913,7 @@ bool any_event_task_system(void)
  8002bea:	d1f2      	bne.n	8002bd2 <sbrk_aligned+0x22>
  8002bec:	e7ef      	b.n	8002bce <sbrk_aligned+0x1e>
  8002bee:	bf00      	nop
- 8002bf0:	20000394 	.word	0x20000394
+ 8002bf0:	2000039c 	.word	0x2000039c
 
 08002bf4 <_malloc_r>:
  8002bf4:	e92d 43f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
@@ -7023,19 +7023,19 @@ bool any_event_task_system(void)
  8002cea:	6005      	str	r5, [r0, #0]
  8002cec:	e7d6      	b.n	8002c9c <_malloc_r+0xa8>
  8002cee:	bf00      	nop
- 8002cf0:	20000398 	.word	0x20000398
+ 8002cf0:	200003a0 	.word	0x200003a0
 
 08002cf4 <__malloc_lock>:
  8002cf4:	4801      	ldr	r0, [pc, #4]	@ (8002cfc <__malloc_lock+0x8>)
  8002cf6:	f7ff bf10 	b.w	8002b1a <__retarget_lock_acquire_recursive>
  8002cfa:	bf00      	nop
- 8002cfc:	20000390 	.word	0x20000390
+ 8002cfc:	20000398 	.word	0x20000398
 
 08002d00 <__malloc_unlock>:
  8002d00:	4801      	ldr	r0, [pc, #4]	@ (8002d08 <__malloc_unlock+0x8>)
  8002d02:	f7ff bf0b 	b.w	8002b1c <__retarget_lock_release_recursive>
  8002d06:	bf00      	nop
- 8002d08:	20000390 	.word	0x20000390
+ 8002d08:	20000398 	.word	0x20000398
 
 08002d0c <__ssputs_r>:
  8002d0c:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -7312,9 +7312,9 @@ bool any_event_task_system(void)
  8002fa0:	a904      	add	r1, sp, #16
  8002fa2:	f000 f9bd 	bl	8003320 <_printf_i>
  8002fa6:	e7ed      	b.n	8002f84 <_svfiprintf_r+0x1c0>
- 8002fa8:	08003c9a 	.word	0x08003c9a
- 8002fac:	08003ca0 	.word	0x08003ca0
- 8002fb0:	08003ca4 	.word	0x08003ca4
+ 8002fa8:	08003cae 	.word	0x08003cae
+ 8002fac:	08003cb4 	.word	0x08003cb4
+ 8002fb0:	08003cb8 	.word	0x08003cb8
  8002fb4:	00000000 	.word	0x00000000
  8002fb8:	08002d0d 	.word	0x08002d0d
 
@@ -7582,9 +7582,9 @@ bool any_event_task_system(void)
  8003220:	a904      	add	r1, sp, #16
  8003222:	f000 f87d 	bl	8003320 <_printf_i>
  8003226:	e7e4      	b.n	80031f2 <_vfiprintf_r+0x1e6>
- 8003228:	08003c9a 	.word	0x08003c9a
- 800322c:	08003ca0 	.word	0x08003ca0
- 8003230:	08003ca4 	.word	0x08003ca4
+ 8003228:	08003cae 	.word	0x08003cae
+ 800322c:	08003cb4 	.word	0x08003cb4
+ 8003230:	08003cb8 	.word	0x08003cb8
  8003234:	00000000 	.word	0x00000000
  8003238:	08002fe7 	.word	0x08002fe7
 
@@ -7918,8 +7918,8 @@ bool any_event_task_system(void)
  8003550:	2500      	movs	r5, #0
  8003552:	f104 0619 	add.w	r6, r4, #25
  8003556:	e7f5      	b.n	8003544 <_printf_i+0x224>
- 8003558:	08003cab 	.word	0x08003cab
- 800355c:	08003cbc 	.word	0x08003cbc
+ 8003558:	08003cbf 	.word	0x08003cbf
+ 800355c:	08003cd0 	.word	0x08003cd0
 
 08003560 <__swbuf_r>:
  8003560:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -8090,7 +8090,7 @@ bool any_event_task_system(void)
  80036d2:	b103      	cbz	r3, 80036d6 <_sbrk_r+0x1a>
  80036d4:	6023      	str	r3, [r4, #0]
  80036d6:	bd38      	pop	{r3, r4, r5, pc}
- 80036d8:	2000038c 	.word	0x2000038c
+ 80036d8:	20000394 	.word	0x20000394
 
 080036dc <memchr>:
  80036dc:	4603      	mov	r3, r0
@@ -8258,7 +8258,7 @@ bool any_event_task_system(void)
  800384e:	6023      	str	r3, [r4, #0]
  8003850:	bd38      	pop	{r3, r4, r5, pc}
  8003852:	bf00      	nop
- 8003854:	2000038c 	.word	0x2000038c
+ 8003854:	20000394 	.word	0x20000394
 
 08003858 <_isatty_r>:
  8003858:	b538      	push	{r3, r4, r5, lr}
@@ -8274,7 +8274,7 @@ bool any_event_task_system(void)
  800386e:	b103      	cbz	r3, 8003872 <_isatty_r+0x1a>
  8003870:	6023      	str	r3, [r4, #0]
  8003872:	bd38      	pop	{r3, r4, r5, pc}
- 8003874:	2000038c 	.word	0x2000038c
+ 8003874:	20000394 	.word	0x20000394
 
 08003878 <_malloc_usable_size_r>:
  8003878:	f851 3c04 	ldr.w	r3, [r1, #-4]
